@@ -46,6 +46,7 @@ A cross-platform mobile application for browsing and booking event tickets, buil
 - **NgRx State Management** — Auth token and UI state managed globally
 - **HTTP Interceptors** — Auth token injected on every request; errors handled centrally
 - **Route Guards** — `AuthGuard` protects private routes; `LoginGuard` redirects authenticated users
+- **Dark Mode** — Full dark mode support via Ionic theming
 
 ---
 
@@ -255,4 +256,3 @@ Ensure the backend is running on `http://localhost:8083` before starting the app
 - [ ] Payment gateway integration
 - [ ] QR code ticket display
 - [ ] Organizer dashboard
-- [ ] Dark mode support
