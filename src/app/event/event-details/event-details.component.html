@@ -1,0 +1,141 @@
+<ion-header class="border-b border-gray-200 dark:border-neutral-700">
+  <ion-toolbar class="bg-white dark:bg-neutral-900 text-gray-800 dark:text-gray-100">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/events"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Event Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content
+  class="bg-gray-100 dark:bg-neutral-900 text-gray-800 dark:text-gray-200"
+  [style.--background]="'transparent'"
+>
+
+  @if (data1$ | async; as data) {
+
+    <!-- ✅ Event Header -->
+    <div class="bg-white dark:bg-neutral-800 p-6 shadow-sm border-b border-gray-200 dark:border-neutral-700">
+
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+        {{ data.event.title }}
+      </h1>
+
+      <p class="italic text-gray-600 dark:text-gray-400 mt-2">
+        {{ data.event.description }}
+      </p>
+
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">
+        {{ data.event.eventDate | date:'mediumDate' }} • 
+        {{ data.event.startTime | date:'shortTime' }} -
+        {{ data.event.endTime | date:'shortTime' }}
+      </p>
+
+    </div>
+
+    <!-- ✅ Ticket Sections -->
+    <div class="p-6 space-y-10 pb-24">
+
+      @for (ticket of data.ticketTypes; track ticket.id) {
+
+        <div>
+
+          <div class="flex justify-between items-center mb-3">
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+              {{ ticket.name }}
+            </h2>
+            <span class="text-indigo-600 dark:text-indigo-400 font-semibold">
+              ₹{{ ticket.price }}
+            </span>
+          </div>
+
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            {{ ticket.description }}
+          </p>
+
+          <!-- Seats -->
+          <div class="grid grid-cols-6 gap-3">
+
+            @for (seat of seatMap[ticket.id]; track seat.id) {
+              <div
+                (click)="toggleSeat(seat, ticket)"
+                class="text-center text-xs py-2 rounded-lg transition cursor-pointer border"
+
+                [ngClass]="{
+                  'bg-green-500 text-white border-green-500': seat.isSelected,
+                  'bg-green-100 text-green-700 border-green-200 dark:bg-green-900 dark:text-green-300 dark:border-green-700': seat.status === 'AVAILABLE' && !seat.isSelected,
+                  'bg-gray-300 text-gray-500 border-gray-300 dark:bg-neutral-700 dark:text-neutral-500 dark:border-neutral-600 cursor-not-allowed': seat.status !== 'AVAILABLE'
+                }"
+              >
+                {{ seat.seatNumber }}
+              </div>
+            }
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  } @else {
+
+    <!-- ✅ Loader State -->
+    <div class="p-6 space-y-4">
+
+      <ion-skeleton-text animated style="width: 60%; height: 28px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 90%; height: 16px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 75%; height: 16px;"></ion-skeleton-text>
+
+      <div class="mt-6 space-y-3">
+        <ion-skeleton-text animated style="width: 40%; height: 20px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 80px;"></ion-skeleton-text>
+      </div>
+
+    </div>
+
+  }
+
+</ion-content>
+<ion-back-button (click)="goBack()"></ion-back-button>
+
+<!-- ✅ Bottom Bar (Only After Data Loads) -->
+@if (data1$ | async) {
+  <div
+    class="fixed bottom-0 left-0 right-0 
+           bg-white dark:bg-neutral-900
+           border-t border-gray-200 dark:border-neutral-700
+           shadow-lg
+           px-4 py-4
+           flex justify-between items-center
+           z-50"
+    style="padding-bottom: env(safe-area-inset-bottom);"
+  >
+
+    <div>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        Total
+      </p>
+      <p class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+        ₹{{ getTotal() }}
+      </p>
+    </div>
+
+    <button
+      (click)="book()"
+      [disabled]="selectedSeats.length === 0"
+      class="bg-indigo-600 dark:bg-indigo-500
+             text-white
+             px-6 py-3
+             rounded-xl
+             disabled:opacity-50 disabled:cursor-not-allowed
+             hover:bg-indigo-700 dark:hover:bg-indigo-400
+             transition"
+    >
+      Book Now
+    </button>
+
+  </div>
+}

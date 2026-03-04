@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Event Booking
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- 🔄 Swipe To Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- 🔹 Filter Section -->
+  <div class="sticky top-0 z-40 bg-gray-100 dark:bg-neutral-900 border-b border-gray-200 dark:border-neutral-700">
+    <div class="flex justify-between items-center px-4 py-3">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        Events
+      </h2>
+
+      <ion-button size="small" fill="outline"
+                  (click)="openFilter()"
+                  class="dark:border-neutral-600">
+        <ion-icon name="filter-outline" slot="start"></ion-icon>
+        Filter
+      </ion-button>
+    </div>
+
+    @if(activeFilterCount > 0){
+      <div class="flex flex-wrap gap-2 px-4 pb-3">
+        @if(currentFilters.category){
+          <span class="px-3 py-1 text-xs rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300">
+            {{ currentFilters.category }}
+          </span>
+        }
+
+        @if(currentFilters.city){
+          <span class="px-3 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+            {{ currentFilters.city }}
+          </span>
+        }
+
+        @if(currentFilters.startDate){
+          <span class="px-3 py-1 text-xs rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300">
+            From {{ currentFilters.startDate | date:'mediumDate' }}
+          </span>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- 🔹 Events Section -->
+  @if (events$ | async; as events) {
+
+    @if (events.length === 0) {
+      <div class="flex flex-col items-center justify-center h-72 text-center px-6">
+        <ion-icon
+          name="calendar-outline"
+          class="text-5xl text-gray-400 dark:text-gray-500 mb-4">
+        </ion-icon>
+
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-1">
+          No Events Found
+        </h3>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Try adjusting your filters or check back later.
+        </p>
+      </div>
+    }
+    @else {
+      <ion-list class="bg-transparent">
+        @for (event of events; track event.id) {
+          <div class="p-4 space-y-6">
+            <app-event-card
+              [event]="event"
+              (viewDetail)="goToDetail($event)">
+            </app-event-card>
+          </div>
+        }
+      </ion-list>
+    }
+  }
+
+</ion-content>

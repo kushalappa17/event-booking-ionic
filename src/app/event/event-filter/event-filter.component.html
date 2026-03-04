@@ -1,0 +1,100 @@
+<ion-header class="border-b border-gray-200 dark:border-neutral-700">
+  <ion-toolbar>
+    <ion-title class="text-lg font-semibold">
+      Filter Events
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="close()">
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-gray-100 dark:bg-neutral-900">
+
+  <div class="p-4 space-y-6">
+
+    <!-- Category -->
+    <div>
+      <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        Category
+      </p>
+
+      <ion-item lines="full" class="rounded-lg">
+        <ion-select
+          placeholder="Select category"
+          [(ngModel)]="selectedCategory"
+          interface="action-sheet">
+          
+          <ion-select-option *ngFor="let cat of categories" [value]="cat">
+            {{ cat }}
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <!-- City -->
+    <div>
+      <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        City
+      </p>
+
+      <ion-item lines="full" class="rounded-lg">
+        <ion-select
+          placeholder="Select city"
+          [(ngModel)]="selectedCity"
+          interface="action-sheet">
+          
+          <ion-select-option *ngFor="let city of cities" [value]="city">
+            {{ city }}
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <!-- Date Range -->
+    <div>
+      <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        Date Range
+      </p>
+
+      <ion-item lines="none" class="rounded-lg border border-gray-200 dark:border-neutral-700">
+        <ion-datetime
+          presentation="date"
+          [(ngModel)]="selectedDateRange"
+          multiple="true"
+          show-default-buttons="false"
+          prefer-wheel="false">
+        </ion-datetime>
+      </ion-item>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<ion-footer class="border-t border-gray-200 dark:border-neutral-700">
+  <ion-toolbar>
+    <div class="flex gap-3 px-4 py-2">
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="clear()">
+        Clear
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        (click)="apply()">
+        Apply
+      </ion-button>
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

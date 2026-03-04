@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Booking Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-gray-100 dark:bg-neutral-900">
+
+@if (booking$ | async; as booking) {
+
+  <!-- Event Details -->
+  <div class="bg-white dark:bg-neutral-800 p-6 shadow-sm">
+
+    <h1 class="text-xl font-bold text-gray-900 dark:text-white">
+      {{ booking.eventTitle }}
+    </h1>
+
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+      {{ booking.eventDate | date:'medium' }}
+    </p>
+
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+      {{ booking.venue }} • {{ booking.city }}
+    </p>
+
+    <p class="mt-2 text-xs text-indigo-600 dark:text-indigo-400">
+      Ref: {{ booking.bookingReference }}
+    </p>
+
+  </div>
+
+
+  <!-- Ticket Summary -->
+  <div class="p-6 space-y-4">
+
+    <h2 class="font-semibold text-gray-800 dark:text-gray-100">
+      Tickets
+    </h2>
+
+    @for(item of booking.bookingItems; track item.id) {
+
+      <div class="bg-white dark:bg-neutral-800 rounded-xl shadow p-4 flex justify-between items-center">
+
+        <div>
+          <p class="font-medium text-gray-900 dark:text-white">
+            {{ item.ticketTypeName }}
+          </p>
+
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            Seat {{ item.seatNumber }} • {{ item.section }}
+          </p>
+
+          <p class="text-xs text-gray-400 mt-1">
+            {{ item.ticketCode }}
+          </p>
+        </div>
+
+        <div class="font-semibold text-indigo-600 dark:text-indigo-400">
+          ₹{{ item.unitPrice }}
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- Price Summary -->
+  <div class="px-6 pb-32">
+
+    <div class="bg-white dark:bg-neutral-800 rounded-xl shadow p-5 space-y-3">
+
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
+        <span>₹{{ booking.subtotal }}</span>
+      </div>
+
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-600 dark:text-gray-400">Discount</span>
+        <span>₹{{ booking.discountAmount }}</span>
+      </div>
+
+      <div class="border-t pt-3 flex justify-between font-bold text-lg">
+        <span>Total</span>
+        <span class="text-indigo-600 dark:text-indigo-400">
+          ₹{{ booking.totalAmount }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+</ion-content>
+
+
+<!-- Bottom Payment Button -->
+@if (booking$ | async; as booking) {
+
+<div
+  class="fixed bottom-0 left-0 right-0
+         bg-white dark:bg-neutral-900
+         border-t border-gray-200 dark:border-neutral-700
+         p-4 z-50">
+
+  <ion-button
+    expand="block"
+    size="large"
+    color="primary"
+    (click)="pay(booking.bookingId)"
+  >
+    Pay ₹{{ booking.totalAmount }}
+  </ion-button>
+
+</div>
+
+}
