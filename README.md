@@ -3,16 +3,35 @@
 A cross-platform mobile application for browsing and booking event tickets, built with **Angular**, **Ionic**, **NgRx**, and **Tailwind CSS**. Connects to a Spring Boot backend with JWT authentication.
 
 ---
-
 ## 📱 Screenshots
 
-<p align="center">
-  <img src="screenshots/login.png" width="200" alt="Login Screen" />
-  <img src="screenshots/event_list.png" width="200" alt="Event Listing" />
-  <img src="screenshots/event_filters.png" width="200" alt="Event Detail" />
-  <img src="screenshots/ticket_selection.png" width="200" alt="Seat Selection" />
-  <img src="screenshots/booking_confirm.png" width="200" alt="Booking Summary" />
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshots/login.png" width="180" alt="Login"/><br/>
+      <sub><b>Login</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/event_list.png" width="180" alt="Events"/><br/>
+      <sub><b>Event Listing</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/event_filters.png" width="180" alt="Event Detail"/><br/>
+      <sub><b>Event Detail</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshots/ticket_selection.png" width="180" alt="Seat Selection"/><br/>
+      <sub><b>Seat Selection</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/booking_confirm.png" width="180" alt="Booking Summary"/><br/>
+      <sub><b>Booking Summary</b></sub>
+    </td>
+    <td></td>
+  </tr>
+</table>
 
 ---
 
